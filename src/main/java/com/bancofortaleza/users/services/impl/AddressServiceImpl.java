@@ -1,5 +1,6 @@
 package com.bancofortaleza.users.services.impl;
 
+import com.bancofortaleza.users.domain.exceptions.ApiException;
 import com.bancofortaleza.users.repository.users.AddressRepository;
 import com.bancofortaleza.users.repository.users.entity.AddressEntity;
 import com.bancofortaleza.users.repository.users.entity.UserEntity;
@@ -12,7 +13,9 @@ import com.bff.services.server.models.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,30 +62,46 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Cacheable(value = "users:addresses:detail", key = "{#userId, #addressId}")
+    @Cacheable(value = "users:addresses:detail", key = "{#userId, #addressId}", unless = "#result == null")
     @Transactional(readOnly = true)
     public AddressResponse getUserAddressById(Integer userId, Integer addressId) {
         userValidationService.getActiveUserOrThrow(
                 userId,
                 "Cannot get address for an inactive user with id: " + userId
         );
-        AddressEntity address = addressRepository.getUserAddressById(userId, addressId);
+        AddressEntity address = getAddressOrThrow(userId, addressId);
 
         return addressMapper.toAddressResponse(address);
     }
 
     @Override
-    @CacheEvict(value = "users:addresses:detail", allEntries = true)
+    @Caching(evict = {
+            @CacheEvict(value = "users:addresses:list", allEntries = true),
+            @CacheEvict(value = "users:addresses:detail", allEntries = true)
+    })
     @Transactional
     public AddressResponse updateUserAddressStatus(Integer userId, Integer addressId, Status status) {
         userValidationService.getActiveUserOrThrow(
                 userId,
                 "Cannot update address for an inactive user with id: " + userId
         );
-        AddressEntity address = addressRepository.getUserAddressById(userId, addressId);
+        AddressEntity address = getAddressOrThrow(userId, addressId);
         address.setStatus(addressMapper.toEntityStatus(status));
         address = addressRepository.updateAddressStatus(userId, addressId, addressMapper.toEntityStatus(status));
 
         return addressMapper.toAddressResponse(address);
+    }
+
+    private AddressEntity getAddressOrThrow(Integer userId, Integer addressId) {
+        AddressEntity address = addressRepository.getUserAddressById(userId, addressId);
+        if (address == null) {
+            throw new ApiException(
+                    HttpStatus.NOT_FOUND,
+                    "ADDRESS_NOT_FOUND",
+                    "Address not found with id: " + addressId + " for user id: " + userId
+            );
+        }
+
+        return address;
     }
 }

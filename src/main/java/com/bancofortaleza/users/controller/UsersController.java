@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bancofortaleza.users.services.AddressService;
+import com.bancofortaleza.users.services.PhoneService;
 import com.bancofortaleza.users.services.UsersService;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class UsersController implements SupportApi {
 
     private final UsersService usersService;
     private final AddressService addressService;
+    private final PhoneService phoneService;
 
     @Override
     public ResponseEntity<UserResponse> createUser(String xDeviceIp, String xSession, UserCreateRequest userCreateRequest) {
@@ -34,7 +36,7 @@ public class UsersController implements SupportApi {
 
     @Override
     public ResponseEntity<PhoneResponse> createUserPhone(String xDeviceIp, String xSession, Integer id, PhoneCreateRequest phoneCreateRequest) {
-        return SupportApi.super.createUserPhone(xDeviceIp, xSession, id, phoneCreateRequest);
+        return ResponseEntity.ok(phoneService.createUserPhone(id, phoneCreateRequest));
     }
 
     @Override
@@ -49,7 +51,7 @@ public class UsersController implements SupportApi {
 
     @Override
     public ResponseEntity<PhoneResponse> getUserPhoneById(String xDeviceIp, String xSession, Integer id, Integer phoneId) {
-        return SupportApi.super.getUserPhoneById(xDeviceIp, xSession, id, phoneId);
+        return ResponseEntity.ok(phoneService.getUserPhoneById(id, phoneId));
     }
 
     @Override
@@ -66,7 +68,14 @@ public class UsersController implements SupportApi {
 
     @Override
     public ResponseEntity<List<PhoneResponse>> listUserPhones(String xDeviceIp, String xSession, Integer id, Integer xPage, Integer xPageSize, String search, Status status) {
-        return SupportApi.super.listUserPhones(xDeviceIp, xSession, id, xPage, xPageSize, search, status);
+        Page<PhoneResponse> phones = phoneService.listUserPhones(id, xPage, xPageSize, search, status);
+
+        return ResponseEntity.ok()
+                .header("x-total-count", String.valueOf(phones.getTotalElements()))
+                .header("x-page", String.valueOf(phones.getNumber() + 1))
+                .header("x-page-size", String.valueOf(phones.getSize()))
+                .header("x-total-pages", String.valueOf(phones.getTotalPages()))
+                .body(phones.getContent());
     }
 
     @Override
@@ -88,7 +97,7 @@ public class UsersController implements SupportApi {
 
     @Override
     public ResponseEntity<PhoneResponse> updateUserPhoneStatus(String xDeviceIp, String xSession, Integer id, Integer phoneId, StatusUpdateRequest statusUpdateRequest) {
-        return SupportApi.super.updateUserPhoneStatus(xDeviceIp, xSession, id, phoneId, statusUpdateRequest);
+        return ResponseEntity.ok(phoneService.updateUserPhoneStatus(id, phoneId, statusUpdateRequest.getStatus()));
     }
 
     @Override
