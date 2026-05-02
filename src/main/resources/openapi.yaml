@@ -19,7 +19,7 @@ tags:
     description: Operations related to user phones.
 
 paths:
-  /support/users:
+  /support/v1/users:
     get:
       tags:
         - Users
@@ -89,7 +89,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /support/users/{id}:
+  /support/v1/users/{id}:
     get:
       tags:
         - Users
@@ -145,7 +145,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /support/users/{id}/addresses:
+  /support/v1/users/{id}/addresses:
     get:
       tags:
         - UserAddresses
@@ -218,7 +218,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /support/users/{id}/addresses/{addressId}:
+  /support/v1/users/{id}/addresses/{addressId}:
     get:
       tags:
         - UserAddresses
@@ -276,7 +276,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /support/users/{id}/phones:
+  /support/v1/users/{id}/phones:
     get:
       tags:
         - UserPhones
@@ -349,7 +349,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 
-  /support/users/{id}/phones/{phoneId}:
+  /support/v1/users/{id}/phones/{phoneId}:
     get:
       tags:
         - UserPhones
