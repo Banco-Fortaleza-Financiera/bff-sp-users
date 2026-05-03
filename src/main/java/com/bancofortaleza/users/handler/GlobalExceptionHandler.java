@@ -189,6 +189,7 @@ public class GlobalExceptionHandler {
         return switch (fieldName) {
             case "xDeviceIp" -> "x-device-ip";
             case "xSession" -> "x-session";
+            case "xUserid" -> "x-userid";
             default -> fieldName;
         };
     }

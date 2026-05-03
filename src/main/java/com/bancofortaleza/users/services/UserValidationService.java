@@ -39,4 +39,16 @@ public class UserValidationService {
 
         return user;
     }
+
+    public void validateAdminUser(Integer userId) {
+        UserEntity user = getUserOrThrow(userId);
+
+        if (user.getUserType() != UserEntity.UserType.ADMIN) {
+            throw new ApiException(
+                    HttpStatus.FORBIDDEN,
+                    "FORBIDDEN",
+                    "User with id: " + userId + " is not allowed to execute this operation"
+            );
+        }
+    }
 }

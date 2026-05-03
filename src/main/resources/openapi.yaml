@@ -29,6 +29,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/XPageHeader'
         - $ref: '#/components/parameters/XPageSizeHeader'
         - $ref: '#/components/parameters/SearchQuery'
@@ -69,6 +70,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
       requestBody:
         required: true
         content:
@@ -99,6 +101,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
       responses:
         '200':
@@ -122,6 +125,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
       requestBody:
         required: true
@@ -155,6 +159,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
         - $ref: '#/components/parameters/XPageHeader'
         - $ref: '#/components/parameters/XPageSizeHeader'
@@ -195,6 +200,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
       requestBody:
         required: true
@@ -228,6 +234,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
         - $ref: '#/components/parameters/AddressId'
       responses:
@@ -252,6 +259,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
         - $ref: '#/components/parameters/AddressId'
       requestBody:
@@ -286,6 +294,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
         - $ref: '#/components/parameters/XPageHeader'
         - $ref: '#/components/parameters/XPageSizeHeader'
@@ -326,6 +335,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
       requestBody:
         required: true
@@ -359,6 +369,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
         - $ref: '#/components/parameters/PhoneId'
       responses:
@@ -383,6 +394,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/XDeviceIpHeader'
         - $ref: '#/components/parameters/XSessionHeader'
+        - $ref: '#/components/parameters/XUserIdHeader'
         - $ref: '#/components/parameters/UserId'
         - $ref: '#/components/parameters/PhoneId'
       requestBody:
@@ -431,6 +443,16 @@ components:
         maxLength: 36
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: "7f2c1a54-4cf0-4d8c-9b18-2a6a57e7f7f3"
+    XUserIdHeader:
+      name: x-userid
+      in: header
+      required: true
+      description: Authenticated user identifier.
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        example: 10
     XPageHeader:
       name: x-page
       in: header
