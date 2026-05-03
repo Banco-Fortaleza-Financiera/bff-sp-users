@@ -29,6 +29,16 @@ public class UserEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "gender", nullable = false, length = 6)
+    private Gender gender;
+
+    @Column(name = "age", nullable = false)
+    private Integer age;
+
+    @Column(name = "identification", nullable = false, length = 32)
+    private String identification;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     private Status status = Status.ACTIVE;
 
@@ -84,5 +94,10 @@ public class UserEntity {
     public enum UserType {
         NORMAL,
         ADMIN
+    }
+
+    public enum Gender {
+        MALE,
+        FEMALE
     }
 }

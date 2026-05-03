@@ -60,6 +60,6 @@ public class UserRepository {
     ) {
         return SpecificationUtils.<UserEntity>equalIfNotNull("status", status)
                 .and(SpecificationUtils.equalIfNotNull("userType", userType))
-                .and(SpecificationUtils.containsIgnoreCase(search, "name", "lastName"));
+                .and(SpecificationUtils.containsIgnoreCase(search, "name", "lastName", "identification"));
     }
 }
