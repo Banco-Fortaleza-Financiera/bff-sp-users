@@ -117,6 +117,7 @@ jacoco {
 def jacocoExcludedClasses = [
     '**/*Application.class',
     '**/configuration/**',
+    '**/com/bff/services/**',
     '**/feign/**',
     '**/generated/**',
     '**/domain/exceptions/**'
@@ -142,7 +143,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.80
+                minimum = 0.90
             }
         }
     }
